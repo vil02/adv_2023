@@ -1,0 +1,73 @@
+---
+name: third_party_checks
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  generate_and_upload_coverage_data:
+    name: generate_and_upload_coverage_data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate codecov.yml file
+        run: |
+          ./validate_codecov_yml.sh
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry install --with dev
+
+      - name: Generate coverage data
+        run: |
+          ./generate_coverage_data.sh
+
+      - name: Fix code coverage paths for SonarCloud
+        # yamllint disable rule:line-length
+        run: |
+          cp coverage.xml coverage_for_sonarcloud.xml
+          sed -i 's/\/home\/runner\/work\/adv_2023\/adv_2023/\/github\/workspace/g' coverage_for_sonarcloud.xml
+        # yamllint enable rule:line-length
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+
+      - name: Upload coverage report to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage.xml
+
+      - name: Upload coverage report as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage_report
+          path: |
+            coverage.xml
+            htmlcov
+          if-no-files-found: error
+          retention-days: 5
+...

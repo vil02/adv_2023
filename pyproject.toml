@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "adv-2023"
+version = "1.0.0"
+description = "solutions of Advent of Code 2023"
+authors = ["piotr.idzik <vil02@o2.pl>"]
+readme = "README.md"
+packages = [{include = "solutions"}]
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+numpy = "*"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-xdist = "*"
+pylint = "*"
+flake8 = "*"
+coverage = "*"
+black = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

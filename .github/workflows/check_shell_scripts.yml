@@ -1,0 +1,31 @@
+---
+name: check_shell_scripts
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  run_shellcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Install shellcheck
+        run: |
+          sudo apt-get install shellcheck
+
+      - name: display shellcheck version
+        run: |
+          shellcheck --version
+
+      - name: run check_shell_scripts
+        run: |
+          ./check_all_shell_scripts.sh
+...

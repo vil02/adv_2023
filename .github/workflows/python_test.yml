@@ -1,0 +1,42 @@
+---
+name: python_test
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  python_test:
+    runs-on: ${{matrix.os}}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+        python-version: [3.8, '3.10']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Set up Python ${{matrix.python-version}}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{matrix.python-version}}
+
+      - name: Install dependencies
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry install --with dev
+      - name: Run liter
+        run: |
+          ./check_all_python_scripts.sh
+      - name: Test with pytest
+        run: |
+          poetry run pytest -n 2
+...
