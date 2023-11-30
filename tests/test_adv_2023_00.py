@@ -1,6 +1,6 @@
 """tests of adv_2023_00"""
 
-import general_utils as gu
+import test_utils as gu
 import solutions.adv_2023_00 as sol
 
 _INPUTS = gu.get_all_inputs(0, {"small", "p"})
