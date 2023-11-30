@@ -28,7 +28,7 @@ def read_to_string(in_file_path):
     return data_str
 
 
-def test_input_data_folder():
+def input_data_folder():
     """returns the path of the with test input data"""
     res = project_folder() / "tests" / "test_input_data"
     assert res.is_dir()
@@ -43,7 +43,7 @@ def read_input(in_day_id, in_type_id):
         return str(in_day_id).zfill(2)
 
     f_name = f"data_{_project_code()}_{_day_id_str(in_day_id)}_{in_type_id}.txt"
-    return read_to_string(test_input_data_folder() / f_name)
+    return read_to_string(input_data_folder() / f_name)
 
 
 def get_all_inputs(in_day_id, in_keys):
