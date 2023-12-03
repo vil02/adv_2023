@@ -25,7 +25,7 @@ def _get_number(in_data, in_pos):
     while (cur_x, in_pos[1]) in in_data and in_data[(cur_x, in_pos[1])].isdigit():
         res += in_data[(cur_x, in_pos[1])]
         cur_x += 1
-    return res, (x_start, in_pos[1])
+    return int(res), (x_start, in_pos[1])
 
 
 def _get_positions_nearby(in_data, in_start_pos):
@@ -57,18 +57,16 @@ def _get_engine_parts(in_data):
     for _ in in_data:
         if in_data[_].isdigit():
             num, pos = _get_number(in_data, _)
-            if pos not in res:
-                res[pos] = num
+            res[pos] = num
     return res
 
 
 def solve_a(in_str):
     """returns the solution for part_a"""
     data = parse_input(in_str)
-    engine_parts = _get_engine_parts(data)
     return sum(
-        int(_n)
-        for _p, _n in engine_parts.items()
+        _n
+        for _p, _n in _get_engine_parts(data).items()
         if _is_near(data, _p, lambda c: c != ".")[0]
     )
 
@@ -81,7 +79,7 @@ def _get_all_gears(in_data):
         if is_near_gear:
             if gear_pos not in res:
                 res[gear_pos] = []
-            res[gear_pos].append(int(num))
+            res[gear_pos].append(num)
     return res
 
 
