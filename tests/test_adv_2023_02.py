@@ -34,8 +34,8 @@ _GAME_3 = sol.Game(
 )
 
 _GAME_4 = sol.Game(
-    id=4,
-    colors=[
+    4,
+    [
         {"red": 3, "green": 1, "blue": 6},
         {"red": 6, "green": 3, "blue": 0},
         {"red": 14, "green": 3, "blue": 15},

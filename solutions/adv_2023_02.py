@@ -3,7 +3,7 @@
 import collections
 import functools
 
-Game = collections.namedtuple("Game", ["id", "colors"])
+Game = collections.namedtuple("Game", ["id", "counts"])
 
 _LIMITS = {"red": 12, "green": 13, "blue": 14}
 
@@ -18,7 +18,7 @@ def _parse_into_dict(in_str):
     return res
 
 
-def _parse_colors(in_str):
+def _parse_counts(in_str):
     res = []
     for _ in in_str.split("; "):
         res.append(_parse_into_dict(_))
@@ -35,9 +35,9 @@ def parse_single_game(in_str):
     """
     parses a game string into a Game
     """
-    game_str, colors_str = in_str.split(": ")
+    game_str, counts_str = in_str.split(": ")
 
-    return Game(id=_parse_game_str(game_str), colors=_parse_colors(colors_str))
+    return Game(id=_parse_game_str(game_str), counts=_parse_counts(counts_str))
 
 
 def _parse_input(in_str):
@@ -50,7 +50,7 @@ def _check_single_dict(in_color_dict):
 
 def is_possible(in_game):
     """checks if the game is possible having number of cubes as in _LIMITS"""
-    return all(_check_single_dict(_) for _ in in_game.colors)
+    return all(_check_single_dict(_) for _ in in_game.counts)
 
 
 def solve_a(in_str):
@@ -66,7 +66,7 @@ def compute_smallest_hist(in_game):
     """
     returns the minimal number of each cube for a game
     """
-    return {_: _get_max(in_game.colors, _) for _ in _COLORS}
+    return {_: _get_max(in_game.counts, _) for _ in _COLORS}
 
 
 def _compute_power(in_dict):
