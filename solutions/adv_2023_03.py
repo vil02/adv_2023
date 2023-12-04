@@ -10,6 +10,35 @@ def parse_input(in_str):
     return res
 
 
+def _get_symbol_positions(in_data, in_is_symbol):
+    return {_p for _p, _c in in_data.items() if in_is_symbol(_c)}
+
+
+def _get_positions_arround(in_data, in_pos):
+    _x, _y = in_pos
+    for _ in [
+        (_x, _y + 1),
+        (_x + 1, _y + 1),
+        (_x + 1, _y),
+        (_x + 1, _y - 1),
+        (_x, _y - 1),
+        (_x - 1, _y - 1),
+        (_x - 1, _y),
+        (_x - 1, _y + 1),
+    ]:
+        assert _ in in_data
+        yield _
+
+
+def _find_numbers_arround(in_data, in_pos):
+    res = {}
+    for _ in _get_positions_arround(in_data, in_pos):
+        if in_data[_].isdigit():
+            num, pos = _get_number(in_data, _)
+            res[pos] = num
+    return res
+
+
 def _get_x_start(in_data, in_pos):
     x_pos = in_pos[0]
     while x_pos >= 0 and in_data[(x_pos, in_pos[1])].isdigit():
@@ -28,62 +57,28 @@ def _get_number(in_data, in_pos):
     return int(res), (x_start, in_pos[1])
 
 
-def _get_positions_nearby(in_data, in_start_pos):
-    def _yield_vertical(in_x, center_y, in_shifts):
-        for _ in in_shifts:
-            cur_pos = (in_x, center_y + _)
-            if cur_pos in in_data:
-                yield cur_pos
-
-    _x, _y = in_start_pos
-    yield from _yield_vertical(_x - 1, _y, [-1, 0, 1])
-
-    while (_x, _y) in in_data and in_data[(_x, _y)].isdigit():
-        yield from _yield_vertical(_x, _y, [-1, 1])
-        _x += 1
-
-    yield from _yield_vertical(_x, _y, [-1, 0, 1])
-
-
-def _is_near(data, in_start_pos, is_interesting):
-    for _ in _get_positions_nearby(data, in_start_pos):
-        if is_interesting(data[_]):
-            return True, _
-    return False, None
-
-
-def _get_engine_parts(in_data):
+def _get_all_parts(in_data):
     res = {}
-    for _ in in_data:
-        if in_data[_].isdigit():
-            num, pos = _get_number(in_data, _)
-            res[pos] = num
-    return res
+    for _ in _get_symbol_positions(in_data, lambda c: not c.isdigit() and c != "."):
+        for _p, _n in _find_numbers_arround(in_data, _).items():
+            res[_p] = _n
+    return res.values()
 
 
 def solve_a(in_str):
     """returns the solution for part_a"""
-    data = parse_input(in_str)
-    return sum(
-        _n
-        for _p, _n in _get_engine_parts(data).items()
-        if _is_near(data, _p, lambda c: c != ".")[0]
-    )
+    return sum(_get_all_parts(parse_input(in_str)))
 
 
 def _get_all_gears(in_data):
-    engine_parts = _get_engine_parts(in_data)
-    res = {}
-    for pos, num in engine_parts.items():
-        is_near_gear, gear_pos = _is_near(in_data, pos, lambda c: c == "*")
-        if is_near_gear:
-            if gear_pos not in res:
-                res[gear_pos] = []
-            res[gear_pos].append(num)
+    res = []
+    for gear_pos in _get_symbol_positions(in_data, lambda c: c == "*"):
+        nums = list(_find_numbers_arround(in_data, gear_pos).values())
+        if len(nums) == 2:
+            res.append(nums)
     return res
 
 
 def solve_b(in_str):
     """returns the solution for part_b"""
-    gears = _get_all_gears(parse_input(in_str))
-    return sum(_[0] * _[1] for _ in gears.values() if len(_) == 2)
+    return sum(_[0] * _[1] for _ in _get_all_gears(parse_input(in_str)))
