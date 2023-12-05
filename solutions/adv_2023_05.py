@@ -42,8 +42,9 @@ class _MapRange:
 
 
 class _Map:
-    def __init__(self, in_name, in_ranges):
-        self.name = in_name
+    def __init__(self, in_domain, in_target, in_ranges):
+        self.domain = in_domain
+        self.target = in_target
         self.ranges = in_ranges
 
     def map(self, in_val):
@@ -77,6 +78,12 @@ def _parse_seeds(in_str):
     return [int(_) for _ in nums.split(" ")]
 
 
+def _parse_domain_target(in_str):
+    domain, _, target = in_str.split("-")
+    assert _ == "to"
+    return domain, target
+
+
 def _parse_map(in_str):
     lines = in_str.splitlines()
     name, _ = lines[0].split()
@@ -88,15 +95,16 @@ def _parse_map(in_str):
             _MapRange(int(dest_start_str), int(source_start_str), int(len_str))
         )
 
-    return _Map(name, ranges)
+    return _Map(*_parse_domain_target(name), ranges)
 
 
-def parse_input(in_str):
-    """parses the input into..."""
-
+def _parse_input(in_str):
     pieces = in_str.split("\n\n")
     seeds = _parse_seeds(pieces[0])
     maps = [_parse_map(_) for _ in pieces[1:]]
+
+    for _ in range(len(maps) - 1):
+        assert maps[_].target == maps[_ + 1].domain
 
     return seeds, maps
 
@@ -110,7 +118,7 @@ def _compute_final_location(in_seed, in_maps):
 
 def solve_a(in_str):
     """returns the solution for part_a"""
-    seeds, maps = parse_input(in_str)
+    seeds, maps = _parse_input(in_str)
     return min(_compute_final_location(_, maps) for _ in seeds)
 
 
@@ -131,7 +139,7 @@ def _apply_all(maps, in_interval):
 
 def solve_b(in_str):
     """returns the solution for part_b"""
-    seeds, maps = parse_input(in_str)
+    seeds, maps = _parse_input(in_str)
     intervals = _seeds_to_intervals(seeds)
     res_intervals = []
     for _ in intervals:
