@@ -76,12 +76,9 @@ def test_interval_shif_last_source():
     assert _INTERVAL_SHIFT.last_source() == 14
 
 
-_INPUTS = tu.get_all_inputs(5, {"small", "p"})
+_INPUTS = tu.get_inputs(5, {"small", "p"})
 
-test_solve_a, test_solve_b = tu.get_solve_tests(
-    sol.solve_a,
-    {"small": 35, "p": 650599855},
-    sol.solve_b,
-    {"small": 46, "p": 1240035},
-    _INPUTS,
+test_solve_a, test_solve_b = _INPUTS.get_tests(
+    (sol.solve_a, sol.solve_b),
+    {"small": (35, 46), "p": (650599855, 1240035)},
 )
