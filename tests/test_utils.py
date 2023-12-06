@@ -1,5 +1,6 @@
 """general utilities for advent of code"""
 import pathlib
+import dataclasses
 import pytest
 
 
@@ -35,7 +36,7 @@ def input_data_folder():
     return res
 
 
-def read_input(in_day_id, in_type_id):
+def _read_input(in_day_id, in_type_id):
     """returns specified test input as a string"""
 
     def _day_id_str(in_day_id):
@@ -46,43 +47,51 @@ def read_input(in_day_id, in_type_id):
     return read_to_string(input_data_folder() / f_name)
 
 
-def get_all_inputs(in_day_id, in_keys):
+def _read_all_inputs(in_day_id, in_keys):
     """returns a dict with all inputs for given in_day_id and data key"""
-    res = {_: read_input(in_day_id, _) for _ in in_keys}
+    res = {_: _read_input(in_day_id, _) for _ in in_keys}
     assert len(set(res.values())) == len(res)
     return res
 
 
-def _get_pytest_params(in_inputs, in_key_to_expected):
-    return [
-        pytest.param(in_inputs[key], val, id=key)
-        for key, val in in_key_to_expected.items()
-    ]
+def _extract_expected(in_key_to_all_expected, in_fun_num):
+    return {_k: _v[in_fun_num] for _k, _v in in_key_to_all_expected.items()}
 
 
-def get_test(in_fun, in_key_to_expected, in_inputs):
-    """
-    returns test, which checks the in_fun
-    agains the data stored in in_inputs
-    with expected retuls stored in in_key_to_expected
-    """
+@dataclasses.dataclass(frozen=True)
+class _Inputs:
+    inputs: dict
 
-    @pytest.mark.parametrize(
-        "input_str,expected", _get_pytest_params(in_inputs, in_key_to_expected)
-    )
-    def _test_regular(input_str, expected):
-        assert in_fun(input_str) == expected
+    def _get_pytest_params(self, in_key_to_expected):
+        return [
+            pytest.param(self.inputs[key], val, id=key)
+            for key, val in in_key_to_expected.items()
+        ]
 
-    return _test_regular
+    def get_test(self, in_fun, in_key_to_expected):
+        """
+        returns test, which checks the in_fun
+        agains the data stored in self.inputs
+        with expected retuls stored in in_key_to_expected
+        """
+
+        @pytest.mark.parametrize(
+            "input_str,expected", self._get_pytest_params(in_key_to_expected)
+        )
+        def _test_regular(input_str, expected):
+            assert in_fun(input_str) == expected
+
+        return _test_regular
+
+    def get_tests(self, in_funcs, in_key_to_all_expected):
+        """returns a tuple of tests"""
+        assert all(len(in_funcs) == len(_) for _ in in_key_to_all_expected.values())
+        return tuple(
+            self.get_test(cur_fun, _extract_expected(in_key_to_all_expected, fun_num))
+            for fun_num, cur_fun in enumerate(in_funcs)
+        )
 
 
-def get_solve_tests(
-    in_solve_a, in_key_to_expected_a, in_solve_b, in_key_to_expected_b, in_inputs
-):
-    """
-    returns tests of the in_solve_a and in_solve_b functions
-    """
-    assert len(in_key_to_expected_a) == len(in_key_to_expected_b)
-    return get_test(in_solve_a, in_key_to_expected_a, in_inputs), get_test(
-        in_solve_b, in_key_to_expected_b, in_inputs
-    )
+def get_inputs(in_day_id, in_keys):
+    """returns an _Inputs object representing the data for given day/keys"""
+    return _Inputs(_read_all_inputs(in_day_id, in_keys))

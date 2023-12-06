@@ -4,7 +4,6 @@ import pytest
 import test_utils as tu
 import solutions.adv_2023_02 as sol
 
-_INPUTS = tu.get_all_inputs(2, {"small", "p"})
 
 _GAME_1 = sol.Game(
     1,
@@ -106,10 +105,9 @@ def test_compute_smallest_hist(in_game, expected):
     assert sol.compute_smallest_hist(in_game) == expected
 
 
-test_solve_a, test_solve_b = tu.get_solve_tests(
-    sol.solve_a,
-    {"small": 8, "p": 2810},
-    sol.solve_b,
-    {"small": 2286, "p": 69110},
-    _INPUTS,
+_INPUTS = tu.get_inputs(2, {"small", "p"})
+
+test_solve_a, test_solve_b = _INPUTS.get_tests(
+    (sol.solve_a, sol.solve_b),
+    {"small": (8, 2286), "p": (2810, 69110)},
 )
