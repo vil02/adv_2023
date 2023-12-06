@@ -38,6 +38,10 @@ def test_parse_input_b():
     assert sol.parse_input_b(_INPUTS["small"]) == _RACE_B
 
 
-test_solve_a_single = gu.get_test(sol.solve_a, {"small": 288, "p": 5133600}, _INPUTS)
-
-test_solve_b_single = gu.get_test(sol.solve_b, {"small": 71503, "p": 40651271}, _INPUTS)
+test_solve_a, test_solve_b = gu.get_solve_tests(
+    sol.solve_a,
+    {"small": 288, "p": 5133600},
+    sol.solve_b,
+    {"small": 71503, "p": 40651271},
+    _INPUTS,
+)
