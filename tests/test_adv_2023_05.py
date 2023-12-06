@@ -1,7 +1,7 @@
 """tests of adv_2023_05"""
 import pytest
 
-import test_utils as gu
+import test_utils as tu
 import solutions.adv_2023_05 as sol
 
 
@@ -76,9 +76,9 @@ def test_interval_shif_last_source():
     assert _INTERVAL_SHIFT.last_source() == 14
 
 
-_INPUTS = gu.get_all_inputs(5, {"small", "p"})
+_INPUTS = tu.get_all_inputs(5, {"small", "p"})
 
-test_solve_a, test_solve_b = gu.get_solve_tests(
+test_solve_a, test_solve_b = tu.get_solve_tests(
     sol.solve_a,
     {"small": 35, "p": 650599855},
     sol.solve_b,
