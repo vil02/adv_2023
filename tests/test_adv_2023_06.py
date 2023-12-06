@@ -2,7 +2,7 @@
 
 import pytest
 
-import test_utils as gu
+import test_utils as tu
 import solutions.adv_2023_06 as sol
 
 _RACE_1 = sol.Race(7, 9)
@@ -25,7 +25,7 @@ def test_count_ways_to_win(in_race, expected):
     assert sol.count_ways_to_win(in_race) == expected
 
 
-_INPUTS = gu.get_all_inputs(6, {"small", "p"})
+_INPUTS = tu.get_all_inputs(6, {"small", "p"})
 
 
 def test_parse_input_a():
@@ -38,7 +38,7 @@ def test_parse_input_b():
     assert sol.parse_input_b(_INPUTS["small"]) == _RACE_B
 
 
-test_solve_a, test_solve_b = gu.get_solve_tests(
+test_solve_a, test_solve_b = tu.get_solve_tests(
     sol.solve_a,
     {"small": 288, "p": 5133600},
     sol.solve_b,
