@@ -1,12 +1,7 @@
 """solution of adv_2023_07"""
 
-
-import collections
-
 import functools
 import itertools
-
-Game = collections.namedtuple("Game", ["hand", "bid"])
 
 
 def parse_input(in_str):
@@ -14,7 +9,6 @@ def parse_input(in_str):
 
     def _proc_single_line(in_line):
         hand, bid = in_line.split()
-        # return Game(hand, int(bid))
         return hand, int(bid)
 
     return dict(_proc_single_line(_) for _ in in_str.splitlines())
@@ -88,57 +82,69 @@ def get_hand_type(in_hand):
     return "high card"
 
 
-def _get_hand_strenght(in_hand):
-    hand_kind = get_hand_type(in_hand)
-    return {
-        "five of kind": 7,
-        "four of kind": 6,
-        "full house": 5,
-        "three of kind": 4,
-        "two pair": 3,
-        "one pair": 2,
-        "high card": 1,
-    }[hand_kind]
+_HAND_TO_STRENGTH = {
+    "five of kind": 7,
+    "four of kind": 6,
+    "full house": 5,
+    "three of kind": 4,
+    "two pair": 3,
+    "one pair": 2,
+    "high card": 1,
+}
+
+
+def _get_hand_strength(in_hand):
+    return _HAND_TO_STRENGTH[get_hand_type(in_hand)]
+
+
+_CARD_STRENGTH_A = {
+    _c: _s + 1
+    for _s, _c in enumerate(
+        ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
+    )
+}
 
 
 def _get_card_strenght(in_card):
-    return {
-        _c: _s + 1
-        for _s, _c in enumerate(
-            ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
-        )
-    }[in_card]
+    return _CARD_STRENGTH_A[in_card]
 
 
-def _get_stronger_hand(hand_a, hand_b):
-    kind_a = _get_hand_strenght(hand_a)
-    kind_b = _get_hand_strenght(hand_b)
-    if kind_a > kind_b:
-        return 1
-    if kind_b > kind_a:
-        return -1
-    assert kind_a == kind_b
-    for _a, _b in zip(hand_a, hand_b):
-        s_a = _get_card_strenght(_a)
-        s_b = _get_card_strenght(_b)
-        if s_a > s_b:
+def _get_compare_hands(in_get_hand_strength, in_get_card_strength):
+    def _compare_hands(hand_a, hand_b):
+        kind_a = in_get_hand_strength(hand_a)
+        kind_b = in_get_hand_strength(hand_b)
+        if kind_a > kind_b:
             return 1
-        if s_b > s_a:
+        if kind_b > kind_a:
             return -1
+        assert kind_a == kind_b
+        for _a, _b in zip(hand_a, hand_b):
+            s_a = in_get_card_strength(_a)
+            s_b = in_get_card_strength(_b)
+            if s_a > s_b:
+                return 1
+            if s_b > s_a:
+                return -1
 
-    assert False
-    return 0
+        assert False
+        return 0
+
+    return _compare_hands
+
+
+def _compute_total_score(in_data, in_cmp):
+    hands = sorted(
+        list(in_data.keys()),
+        key=functools.cmp_to_key(in_cmp),
+    )
+    return sum(_r * in_data[_h] for _r, _h in enumerate(hands, 1))
 
 
 def solve_a(in_str):
     """returns the solution for part_a"""
-    data = parse_input(in_str)
-    hands = sorted(list(data.keys()), key=functools.cmp_to_key(_get_stronger_hand))
-    res = 0
-    for _r, _h in enumerate(hands):
-        res += (_r + 1) * data[_h]
-
-    return res
+    return _compute_total_score(
+        parse_input(in_str), _get_compare_hands(_get_hand_strength, _get_card_strenght)
+    )
 
 
 _NORMAL_CARDS = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"]
@@ -152,13 +158,13 @@ def get_best_hand_type(in_hand):
         return get_hand_type(in_hand)
     pos_of_js = [_p for _p, _c in enumerate(in_hand) if _c == "J"]
     best_hand = in_hand
-    best_hand_strenght = _get_hand_strenght(best_hand)
+    best_hand_strenght = _get_hand_strength(best_hand)
     for cur_subs in itertools.product(_NORMAL_CARDS, repeat=len(pos_of_js)):
         tmp_hand = list(in_hand)
         for _i, _p in enumerate(pos_of_js):
             tmp_hand[_p] = cur_subs[_i]
         tmp_hand = "".join(tmp_hand)
-        cur_hand_strenght = _get_hand_strenght(tmp_hand)
+        cur_hand_strenght = _get_hand_strength(tmp_hand)
         if cur_hand_strenght > best_hand_strenght:
             best_hand = tmp_hand
             best_hand_strenght = cur_hand_strenght
@@ -168,58 +174,24 @@ def get_best_hand_type(in_hand):
 
 
 def _get_best_hand_strenght(in_hand):
-    hand_kind = get_best_hand_type(in_hand)
-    return {
-        "five of kind": 7,
-        "four of kind": 6,
-        "full house": 5,
-        "three of kind": 4,
-        "two pair": 3,
-        "one pair": 2,
-        "high card": 1,
-    }[hand_kind]
+    return _HAND_TO_STRENGTH[get_best_hand_type(in_hand)]
+
+
+_CARD_STRENGTH_B = {
+    _c: _s
+    for _s, _c in enumerate(
+        ["J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"], 1
+    )
+}
 
 
 def _get_card_strenght_b(in_card):
-    return {
-        _c: _s + 1
-        for _s, _c in enumerate(
-            ["J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"]
-        )
-    }[in_card]
-
-
-def _get_stronger_hand_b(hand_a, hand_b):
-    kind_a = _get_best_hand_strenght(hand_a)
-    kind_b = _get_best_hand_strenght(hand_b)
-    if kind_a > kind_b:
-        return 1
-        # return hand_a
-    if kind_b > kind_a:
-        return -1
-        # return hand_b
-    assert kind_a == kind_b
-    for _a, _b in zip(hand_a, hand_b):
-        s_a = _get_card_strenght_b(_a)
-        s_b = _get_card_strenght_b(_b)
-        if s_a > s_b:
-            return 1
-            # return kind_a
-        if s_b > s_a:
-            return -1
-            # return kind_b
-
-    assert False
-    return 0
-    # return kind_a
+    return _CARD_STRENGTH_B[in_card]
 
 
 def solve_b(in_str):
     """returns the solution for part_b"""
-    data = parse_input(in_str)
-    hands = sorted(list(data.keys()), key=functools.cmp_to_key(_get_stronger_hand_b))
-    res = 0
-    for _r, _h in enumerate(hands):
-        res += (_r + 1) * data[_h]
-
-    return res
+    return _compute_total_score(
+        parse_input(in_str),
+        _get_compare_hands(_get_best_hand_strenght, _get_card_strenght_b),
+    )
