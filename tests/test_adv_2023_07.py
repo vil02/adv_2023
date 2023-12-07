@@ -41,6 +41,50 @@ def test_get_best_hand_type(in_hand, expected):
     assert sol.get_best_hand_type(in_hand) == expected
 
 
+# ordering in a: 32T3K, KTJJT, KK677, T55J5, QQQJA
+@pytest.mark.parametrize(
+    "weaker, stronger",
+    [
+        ("32T3K", "KK677"),
+        ("32T3K", "KTJJT"),
+        ("KTJJT", "KK677"),
+        ("KTJJT", "T55J5"),
+        ("KTJJT", "QQQJA"),
+        ("KK677", "T55J5"),
+        ("KK677", "QQQJA"),
+        ("T55J5", "QQQJA"),
+    ],
+)
+def test_cmp_a(weaker, stronger):
+    """tests cmp_a"""
+    assert sol.cmp_a(weaker, stronger) == -1
+    assert sol.cmp_a(stronger, weaker) == 1
+    assert sol.cmp_a(weaker, weaker) == 0
+    assert sol.cmp_a(stronger, stronger) == 0
+
+
+# ordering in b: 32T3K, KK677, T55J5, QQQJA, KTJJT
+@pytest.mark.parametrize(
+    "weaker, stronger",
+    [
+        ("32T3K", "KTJJT"),
+        ("QQQJA", "KTJJT"),
+        ("T55J5", "KTJJT"),
+        ("KK677", "KTJJT"),
+        ("T55J5", "QQQJA"),
+        ("KK677", "QQQJA"),
+        ("32T3K", "QQQJA"),
+        ("32T3K", "KK677"),
+    ],
+)
+def test_cmp_b(weaker, stronger):
+    """tests cmp_b"""
+    assert sol.cmp_b(weaker, stronger) == -1
+    assert sol.cmp_b(stronger, weaker) == 1
+    assert sol.cmp_b(weaker, weaker) == 0
+    assert sol.cmp_b(stronger, stronger) == 0
+
+
 _INPUTS = tu.get_inputs(7, {"small", "p"})
 
 test_solve_a, test_solve_b = _INPUTS.get_tests(

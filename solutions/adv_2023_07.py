@@ -126,7 +126,6 @@ def _get_compare_hands(in_get_hand_strength, in_get_card_strength):
             if s_b > s_a:
                 return -1
 
-        assert False
         return 0
 
     return _compare_hands
@@ -140,11 +139,12 @@ def _compute_total_score(in_data, in_cmp):
     return sum(_r * in_data[_h] for _r, _h in enumerate(hands, 1))
 
 
+cmp_a = _get_compare_hands(_get_hand_strength, _get_card_strenght)
+
+
 def solve_a(in_str):
     """returns the solution for part_a"""
-    return _compute_total_score(
-        parse_input(in_str), _get_compare_hands(_get_hand_strength, _get_card_strenght)
-    )
+    return _compute_total_score(parse_input(in_str), cmp_a)
 
 
 _NORMAL_CARDS = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"]
@@ -189,9 +189,9 @@ def _get_card_strenght_b(in_card):
     return _CARD_STRENGTH_B[in_card]
 
 
+cmp_b = _get_compare_hands(_get_best_hand_strenght, _get_card_strenght_b)
+
+
 def solve_b(in_str):
     """returns the solution for part_b"""
-    return _compute_total_score(
-        parse_input(in_str),
-        _get_compare_hands(_get_best_hand_strenght, _get_card_strenght_b),
-    )
+    return _compute_total_score(parse_input(in_str), cmp_b)
