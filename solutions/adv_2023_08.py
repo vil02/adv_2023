@@ -58,20 +58,20 @@ def _get_start_nodes(in_nodes):
     return [_ for _ in in_nodes.keys() if _is_start_node(_)]
 
 
-def _proc_single_2(in_nodes, in_dirs_str, start_node):
+def _proc_single(in_nodes, in_dirs_str, start_node):
     dirs = _gen_dirs(in_dirs_str)
-    move_num, last_node = _iterate_till(
+    moves_till_cycle, last_node = _iterate_till(
         dirs, in_nodes, start_node, lambda n: n[-1] == "Z"
     )
     next_node = _make_move(dirs, in_nodes, last_node)
-    move_num_2, _ = _iterate_till(dirs, in_nodes, next_node, lambda n: n == last_node)
-    move_num_2 += 1
-    assert move_num == move_num_2
-    return move_num
+    cycle_len, _ = _iterate_till(dirs, in_nodes, next_node, lambda n: n == last_node)
+    cycle_len += 1
+    assert moves_till_cycle == cycle_len
+    return moves_till_cycle
 
 
 def solve_b(in_str):
     """returns the solution for part_b"""
     dirs_str, nodes = _parse_input(in_str)
     start_nodes = _get_start_nodes(nodes)
-    return math.lcm(*[_proc_single_2(nodes, dirs_str, _) for _ in start_nodes])
+    return math.lcm(*[_proc_single(nodes, dirs_str, _) for _ in start_nodes])
