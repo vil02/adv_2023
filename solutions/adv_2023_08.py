@@ -16,8 +16,8 @@ def _parse_nodes(in_str):
 
 
 def _parse_input(in_str):
-    instructions, nodes = in_str.split("\n\n")
-    return instructions, _parse_nodes(nodes)
+    dirs_str, nodes = in_str.split("\n\n")
+    return dirs_str, _parse_nodes(nodes)
 
 
 def _gen_dirs(in_dirs):
