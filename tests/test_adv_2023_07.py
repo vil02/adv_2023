@@ -85,8 +85,9 @@ def test_cmp_b(weaker, stronger):
     assert sol.cmp_b(stronger, stronger) == 0
 
 
-_INPUTS = tu.get_inputs(7, {"small", "p"})
+_INPUTS = tu.get_inputs(7, {"small", "p", "r"})
 
 test_solve_a, test_solve_b = _INPUTS.get_tests(
-    (sol.solve_a, sol.solve_b), {"small": (6440, 5905), "p": (250453939, 248652697)}
+    (sol.solve_a, sol.solve_b),
+    {"small": (6440, 5905), "p": (250453939, 248652697), "r": (6592, 6839)},
 )
