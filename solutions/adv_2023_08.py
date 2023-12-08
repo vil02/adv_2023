@@ -2,18 +2,13 @@
 
 import itertools
 import math
-
-
-def _parse_target(in_str):
-    assert in_str[0] == "("
-    assert in_str[-1] == ")"
-    l_res, r_res = in_str[1:-1].split(", ")
-    return l_res, r_res
+import re
 
 
 def _parse_node(in_str):
-    start_node, targets = in_str.split(" = ")
-    return start_node, _parse_target(targets)
+    pattern = re.compile(r"(?P<node>\w*) = \((?P<left>\w*), (?P<right>\w*)\)")
+    match = pattern.match(in_str)
+    return match.group("node"), (match.group("left"), match.group("right"))
 
 
 def _parse_nodes(in_str):
@@ -21,8 +16,8 @@ def _parse_nodes(in_str):
 
 
 def _parse_input(in_str):
-    instructions, nodes = in_str.split("\n\n")
-    return instructions, _parse_nodes(nodes)
+    dirs_str, nodes = in_str.split("\n\n")
+    return dirs_str, _parse_nodes(nodes)
 
 
 def _gen_dirs(in_dirs):
