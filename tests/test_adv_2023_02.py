@@ -105,9 +105,9 @@ def test_compute_smallest_hist(in_game, expected):
     assert sol.compute_smallest_hist(in_game) == expected
 
 
-_INPUTS = tu.get_inputs(2, {"small", "p"})
+_INPUTS = tu.get_inputs(2, {"small", "p", "m"})
 
 test_solve_a, test_solve_b = _INPUTS.get_tests(
     (sol.solve_a, sol.solve_b),
-    {"small": (8, 2286), "p": (2810, 69110)},
+    {"small": (8, 2286), "p": (2810, 69110), "m": (2528, 67363)},
 )
