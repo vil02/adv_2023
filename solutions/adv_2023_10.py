@@ -77,10 +77,8 @@ def solve_b(in_str):
     pipes, s_pos = parse_input(in_str)
     loop = _find_loop(pipes, s_pos)
 
-    path = matplotlib.path.Path(loop)
+    path = matplotlib.path.Path([_ for _ in loop if pipes[_] not in {"-", "|"}])
     loop_as_set = set(loop)
-    return sum(
-        1
-        for _p, _s in pipes.items()
-        if _p not in loop_as_set and path.contains_point(_p)
+    return len(
+        list(_ for _ in pipes if _ not in loop_as_set and path.contains_point(_))
     )
