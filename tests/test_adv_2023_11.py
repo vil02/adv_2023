@@ -26,18 +26,12 @@ def test_parse_input():
 
 def test_get_empty_rows():
     """checks get_empty_rows with example data"""
-    assert (
-        sol.get_empty_rows(_SMALL_IMAGE, _SMALL_X_MAX, _SMALL_Y_MAX)
-        == _SMALL_EMPTY_ROWS
-    )
+    assert sol.get_empty_rows(_SMALL_IMAGE, _SMALL_Y_MAX) == _SMALL_EMPTY_ROWS
 
 
 def test_get_empty_cols():
     """checks get_empty_cols with example data"""
-    assert (
-        sol.get_empty_cols(_SMALL_IMAGE, _SMALL_X_MAX, _SMALL_Y_MAX)
-        == _SMALL_EMPTY_COLS
-    )
+    assert sol.get_empty_cols(_SMALL_IMAGE, _SMALL_X_MAX) == _SMALL_EMPTY_COLS
 
 
 @pytest.mark.parametrize(

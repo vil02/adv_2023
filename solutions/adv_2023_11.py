@@ -20,22 +20,19 @@ def parse_input(in_str):
     return res, x_max, y_max
 
 
-def get_empty_rows(in_image, x_max, y_max):
+def _get_empty(in_image, in_limit, in_exract):
+    used = {in_exract(_) for _ in in_image}
+    return {_ for _ in range(in_limit) if _ not in used}
+
+
+def get_empty_rows(in_image, y_max):
     """returns indeces of empty rows"""
-    res = set()
-    for y in range(y_max):
-        if all(_to_pos(x, y) not in in_image for x in range(x_max)):
-            res.add(y)
-    return res
+    return _get_empty(in_image, y_max, lambda pos: pos[1])
 
 
-def get_empty_cols(in_image, x_max, y_max):
+def get_empty_cols(in_image, x_max):
     """returns indeces of empty columns"""
-    res = set()
-    for x in range(x_max):
-        if all(_to_pos(x, y) not in in_image for y in range(y_max)):
-            res.add(x)
-    return res
+    return _get_empty(in_image, x_max, lambda pos: pos[0])
 
 
 def _gen_nums(in_a, in_b):
@@ -62,8 +59,8 @@ def compute_dist(in_pos_a, in_pos_b, empty_rows, empty_cols, empty_size):
 def compute_sum_of_dists(in_str, in_empty_size):
     """computes the sum of all possible distances"""
     image, x_max, y_max = parse_input(in_str)
-    empty_rows = get_empty_rows(image, x_max, y_max)
-    empty_cols = get_empty_cols(image, x_max, y_max)
+    empty_rows = get_empty_rows(image, y_max)
+    empty_cols = get_empty_cols(image, x_max)
     return sum(
         compute_dist(*_, empty_rows, empty_cols, in_empty_size)
         for _ in itertools.combinations(image, 2)
