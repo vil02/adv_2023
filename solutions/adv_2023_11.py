@@ -1,13 +1,14 @@
 """solution of adv_2023_11"""
 
 import itertools
+from typing import Callable, Iterator
 
 
-def _to_pos(in_x, in_y):
+def _to_pos(in_x: int, in_y: int) -> tuple[int, int]:
     return (in_x, in_y)
 
 
-def parse_input(in_str):
+def parse_input(in_str: str) -> tuple[set[tuple[int, int]], int, int]:
     """parses the input into set of galaxies"""
     res = set()
     y_max = 0
@@ -20,27 +21,31 @@ def parse_input(in_str):
     return res, x_max, y_max
 
 
-def _get_empty(in_image, in_limit, in_exract):
+def _get_empty(
+    in_image: set[tuple[int, int]],
+    in_limit: int,
+    in_exract: Callable[[tuple[int, int]], int],
+) -> set[int]:
     used = {in_exract(_) for _ in in_image}
     return {_ for _ in range(in_limit) if _ not in used}
 
 
-def get_empty_rows(in_image, y_max):
+def get_empty_rows(in_image: set[tuple[int, int]], y_max: int) -> set[int]:
     """returns indeces of empty rows"""
     return _get_empty(in_image, y_max, lambda pos: pos[1])
 
 
-def get_empty_cols(in_image, x_max):
+def get_empty_cols(in_image: set[tuple[int, int]], x_max: int) -> set[int]:
     """returns indeces of empty columns"""
     return _get_empty(in_image, x_max, lambda pos: pos[0])
 
 
-def _gen_nums(in_a, in_b):
+def _gen_nums(in_a: int, in_b: int) -> Iterator[int]:
     assert in_a >= 0 and in_b >= 0
     yield from range(*sorted([in_a, in_b]))
 
 
-def _compute_1d_dist(in_a, in_b, is_empty, empty_size):
+def _compute_1d_dist(in_a: int, in_b: int, is_empty: set[int], empty_size: int) -> int:
     res = 0
     for _ in _gen_nums(in_a, in_b):
         res += 1
@@ -49,14 +54,20 @@ def _compute_1d_dist(in_a, in_b, is_empty, empty_size):
     return res
 
 
-def compute_dist(in_pos_a, in_pos_b, empty_rows, empty_cols, empty_size):
+def compute_dist(
+    in_pos_a: tuple[int, int],
+    in_pos_b: tuple[int, int],
+    empty_rows: set[int],
+    empty_cols: set[int],
+    empty_size: int,
+) -> int:
     """computes the distance between two given positions"""
     return _compute_1d_dist(
         in_pos_a[0], in_pos_b[0], empty_cols, empty_size
     ) + _compute_1d_dist(in_pos_a[1], in_pos_b[1], empty_rows, empty_size)
 
 
-def compute_sum_of_dists(in_str, in_empty_size):
+def compute_sum_of_dists(in_str: str, in_empty_size: int) -> int:
     """computes the sum of all possible distances"""
     image, x_max, y_max = parse_input(in_str)
     empty_rows = get_empty_rows(image, y_max)
@@ -67,11 +78,11 @@ def compute_sum_of_dists(in_str, in_empty_size):
     )
 
 
-def solve_a(in_str):
+def solve_a(in_str: str) -> int:
     """returns the solution for part_a"""
     return compute_sum_of_dists(in_str, 2)
 
 
-def solve_b(in_str):
+def solve_b(in_str: str) -> int:
     """returns the solution for part_b"""
     return compute_sum_of_dists(in_str, 1000000)
