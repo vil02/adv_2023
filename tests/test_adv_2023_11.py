@@ -43,11 +43,11 @@ def test_get_empty_cols():
 @pytest.mark.parametrize(
     "in_pos_a, in_pos_b, in_empty_size, expected",
     [
-        ((1, 5), (4, 9), 2 - 1, 9),
-        ((3, 0), (7, 8), 2 - 1, 15),
-        ((0, 8), (4, 8), 2 - 1, 5),
-        ((0, 8), (4, 8), 10 - 1, 13),
-        ((0, 8), (4, 8), 100 - 1, 103),
+        ((1, 5), (4, 9), 2, 9),
+        ((3, 0), (7, 8), 2, 15),
+        ((0, 8), (4, 8), 2, 5),
+        ((0, 8), (4, 8), 10, 13),
+        ((0, 8), (4, 8), 100, 103),
     ],
 )
 def test_compute_dist(in_pos_a, in_pos_b, in_empty_size, expected):
@@ -68,7 +68,7 @@ def test_compute_dist(in_pos_a, in_pos_b, in_empty_size, expected):
 
 @pytest.mark.parametrize(
     "in_empty_size, expected",
-    [(2 - 1, 374), (10 - 1, 1030), (100 - 1, 8410)],
+    [(2, 374), (10, 1030), (100, 8410)],
 )
 def test_compute_sum_of_dists(in_empty_size, expected):
     """tests compute_sum_of_dists with example data"""

@@ -21,7 +21,7 @@ def parse_input(in_str):
 
 
 def get_empty_rows(in_image, x_max, y_max):
-    """returns empty rows"""
+    """returns indeces of empty rows"""
     res = set()
     for y in range(y_max):
         if all(_to_pos(x, y) not in in_image for x in range(x_max)):
@@ -30,7 +30,7 @@ def get_empty_rows(in_image, x_max, y_max):
 
 
 def get_empty_cols(in_image, x_max, y_max):
-    """returns empty columns"""
+    """returns indeces of empty columns"""
     res = set()
     for x in range(x_max):
         if all(_to_pos(x, y) not in in_image for y in range(y_max)):
@@ -40,9 +40,7 @@ def get_empty_cols(in_image, x_max, y_max):
 
 def _gen_nums(in_a, in_b):
     assert in_a >= 0 and in_b >= 0
-    if in_a < in_b:
-        yield from range(in_a, in_b)
-    yield from range(in_b, in_a)
+    yield from range(*sorted([in_a, in_b]))
 
 
 def _compute_1d_dist(in_a, in_b, is_empty, empty_size):
@@ -50,7 +48,7 @@ def _compute_1d_dist(in_a, in_b, is_empty, empty_size):
     for _ in _gen_nums(in_a, in_b):
         res += 1
         if _ in is_empty:
-            res += empty_size
+            res += empty_size - 1
     return res
 
 
@@ -74,9 +72,9 @@ def compute_sum_of_dists(in_str, in_empty_size):
 
 def solve_a(in_str):
     """returns the solution for part_a"""
-    return compute_sum_of_dists(in_str, 2 - 1)
+    return compute_sum_of_dists(in_str, 2)
 
 
 def solve_b(in_str):
     """returns the solution for part_b"""
-    return compute_sum_of_dists(in_str, 1000000 - 1)
+    return compute_sum_of_dists(in_str, 1000000)
