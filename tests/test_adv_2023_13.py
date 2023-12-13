@@ -5,7 +5,7 @@ import test_utils as tu
 import solutions.adv_2023_13 as sol
 
 
-_INPUTS = tu.get_inputs(13, {"small", "p"})
+_INPUTS = tu.get_inputs(13, {"small", "p", "r"})
 
 _IMG_A = {
     (1, 1): "#",
@@ -170,7 +170,8 @@ def test_compute_sym_score(in_img, in_size_x, in_size_y, expected):
 
 
 test_solve_a, test_solve_b = _INPUTS.get_tests(
-    (sol.solve_a, sol.solve_b), {"small": (405, 400), "p": (40006, 28627)}
+    (sol.solve_a, sol.solve_b),
+    {"small": (405, 400), "p": (40006, 28627), "r": (709, 1400)},
 )
 
 
