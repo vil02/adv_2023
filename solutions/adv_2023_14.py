@@ -71,38 +71,15 @@ def solve_a(in_str: str):
     return _compute_load_score(image)
 
 
-def _tilt_south(image, x_size, y_size):
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image = _tilt_north(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    return image
-
-
-def _tilt_east(image, x_size, y_size):
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image = _tilt_north(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    return image
-
-
-def _tilt_west(image, x_size, y_size):
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image = _tilt_north(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    image, x_size, y_size = _rotate_90(image, x_size, y_size)
-    return image
-
-
 def _make_cycle(image, x_size, y_size):
     image = _tilt_north(image, x_size, y_size)
-    image = _tilt_west(image, x_size, y_size)
-    image = _tilt_south(image, x_size, y_size)
-    image = _tilt_east(image, x_size, y_size)
+    image, x_size, y_size = _rotate_90(image, x_size, y_size)
+    image = _tilt_north(image, x_size, y_size)
+    image, x_size, y_size = _rotate_90(image, x_size, y_size)
+    image = _tilt_north(image, x_size, y_size)
+    image, x_size, y_size = _rotate_90(image, x_size, y_size)
+    image = _tilt_north(image, x_size, y_size)
+    image, x_size, y_size = _rotate_90(image, x_size, y_size)
     return image
 
 
