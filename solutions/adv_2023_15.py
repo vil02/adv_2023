@@ -5,13 +5,16 @@ def _parse_input(in_str: str):
     return in_str.strip().split(",")
 
 
+_HASH_SIZE = 256
+
+
 def our_hash(in_str):
     """computes the HASH"""
     res = 0
     for _ in in_str:
         res += ord(_)
         res *= 17
-        res %= 256
+        res %= _HASH_SIZE
     return res
 
 
@@ -24,7 +27,7 @@ def solve_a(in_str: str):
 
 class _Boxes:
     def __init__(self):
-        self.boxes = {_: [] for _ in range(256)}
+        self.boxes = {_: [] for _ in range(_HASH_SIZE)}
 
     def _replace_or_add(self, in_label, in_power):
         cur_box = our_hash(in_label)
