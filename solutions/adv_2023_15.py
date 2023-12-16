@@ -27,7 +27,7 @@ def solve_a(in_str: str):
 
 class _Boxes:
     def __init__(self):
-        self.boxes = {_: [] for _ in range(_HASH_SIZE)}
+        self.boxes = [[] for _ in range(_HASH_SIZE)]
 
     def _replace_or_add(self, in_label, in_power):
         cur_box = our_hash(in_label)
@@ -55,7 +55,7 @@ class _Boxes:
     def compute_total_power(self):
         """computes the focusing power of all of the boxes"""
         res = 0
-        for box_num, lenses in enumerate(self.boxes.values(), 1):
+        for box_num, lenses in enumerate(self.boxes, 1):
             for lense_num, lense in enumerate(lenses, 1):
                 res += box_num * lense_num * lense[1]
         return res
