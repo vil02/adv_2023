@@ -6,7 +6,7 @@ import functools
 Condition = collections.namedtuple("Condition", ["check", "target", "part_type"])
 
 
-def _parse_check(in_str):
+def _parse_check(in_str: str):
     if "<" in in_str:
         part_type, limit = in_str.split("<")
         return lambda in_part: in_part[part_type] < int(limit), part_type
@@ -15,50 +15,44 @@ def _parse_check(in_str):
     return lambda in_part: in_part[part_type] > int(limit), part_type
 
 
-def _parse_condition(in_str):
+def _parse_condition(in_str: str):
     if ":" in in_str:
-        (
-            check_str,
-            target,
-        ) = in_str.split(":")
+        check_str, target = in_str.split(":")
         check, part_type = _parse_check(check_str)
         return Condition(check, target, part_type)
     return Condition(lambda _: True, in_str, None)
 
 
-def _parse_workflow_conditions(in_str):
-    pieces = in_str.split(",")
-    res = []
-    for cur_piece in pieces:
-        res.append(_parse_condition(cur_piece))
+def _parse_workflow_conditions(in_str: str):
+    return [_parse_condition(cur_piece) for cur_piece in in_str.split(",")]
+
+
+_IN = "in"
+
+
+def _parse_workflow_line(in_str: str):
+    cur_name, conditions = in_str.split("{")
+    assert conditions[-1] == "}"
+    return cur_name, _parse_workflow_conditions(conditions[:-1])
+
+
+def _parse_workflow(in_str: str):
+    res = dict(_parse_workflow_line(_) for _ in in_str.splitlines())
+    assert _IN in res
     return res
 
 
-def _parse_workflow(in_str):
-    res = {}
-    for cur_line in in_str.splitlines():
-        cur_name, conditions = cur_line.split("{")
-        assert conditions[-1] == "}"
-        res[cur_name] = _parse_workflow_conditions(conditions[:-1])
-    return res
-
-
-def _parse_piece_value(in_str):
+def _parse_piece_value(in_str: str):
     name, value = in_str.split("=")
     return name, int(value)
 
 
-def _parse_piece(in_str):
-    assert in_str[0] == "{"
-    assert in_str[-1] == "}"
-    res = {}
-    for piece in in_str[1:-1].split(","):
-        name, value = _parse_piece_value(piece)
-        res[name] = value
-    return res
+def _parse_piece(in_str: str):
+    assert in_str[0] == "{" and in_str[-1] == "}"
+    return dict(_parse_piece_value(piece) for piece in in_str[1:-1].split(","))
 
 
-def _parse_pieces(in_str):
+def _parse_pieces(in_str: str):
     return [_parse_piece(_) for _ in in_str.splitlines()]
 
 
@@ -75,25 +69,28 @@ def _apply_conditions(in_conditions, in_piece):
     return in_conditions[-1].target
 
 
+_ACCEPTED = "A"
+_REJECTED = "R"
+
+
 def _run_workflow(in_workflow, in_piece):
-    cur_name = "in"
-    while cur_name not in {"A", "R"}:
+    cur_name = _IN
+    while cur_name not in {_ACCEPTED, _REJECTED}:
         cur_name = _apply_conditions(in_workflow[cur_name], in_piece)
     return cur_name
 
 
+def _is_accepted(in_name: str) -> bool:
+    return {_ACCEPTED: True, _REJECTED: False}[in_name]
+
+
 def _select_parts(in_workflow, in_pieces):
-    accepted = []
-    for piece in in_pieces:
-        res = _run_workflow(in_workflow, piece)
-        if res == "A":
-            accepted.append(piece)
-        else:
-            assert res == "R"
-    return accepted
+    return [
+        piece for piece in in_pieces if _is_accepted(_run_workflow(in_workflow, piece))
+    ]
 
 
-def solve_a(in_str: str):
+def solve_a(in_str: str) -> int:
     """returns the solution for part_a"""
     workflow, pieces = _parse_input(in_str)
     accepted = _select_parts(workflow, pieces)
@@ -111,11 +108,11 @@ def _split_range(in_range, in_cond):
     return res_in, res_out
 
 
-def _count(in_workflow):
+def _count(in_workflow) -> int:
     def _count_single(in_state, ranges):
-        if in_state == "A":
+        if in_state == _ACCEPTED:
             return functools.reduce(lambda a, rg: a * len(rg), ranges.values(), 1)
-        if in_state == "R":
+        if in_state == _REJECTED:
             return 0
         res = 0
         for cur_cond in in_workflow[in_state]:
@@ -133,10 +130,10 @@ def _count(in_workflow):
         return res
 
     start_ranges = {_: list(range(1, 4001)) for _ in ["x", "m", "a", "s"]}
-    return _count_single("in", start_ranges)
+    return _count_single(_IN, start_ranges)
 
 
-def solve_b(in_str: str):
+def solve_b(in_str: str) -> int:
     """returns the solution for part_b"""
     workflow, _ = _parse_input(in_str)
     return _count(workflow)
