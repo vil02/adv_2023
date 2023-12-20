@@ -1,6 +1,6 @@
 """solution of adv_2023_20"""
 import collections
-import functools
+import math
 
 Pulse = collections.namedtuple("Pulse", ["source", "target", "type"])
 
@@ -191,4 +191,4 @@ def solve_b(in_str: str):
     for source in _find_sources(circuit.modules, leading_to_rx):
         circuit.reset()
         nums.append(circuit.find_pulse(Pulse(source, leading_to_rx, _HIGH)))
-    return functools.reduce(lambda a, b: a * b, nums)
+    return math.lcm(*nums)
