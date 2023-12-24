@@ -9,6 +9,7 @@ packages = [{include = "solutions"}]
 [tool.poetry.dependencies]
 python = ">=3.9"
 numpy = "*"
+sympy = "*"
 matplotlib = "*"
 
 [tool.poetry.group.dev]
