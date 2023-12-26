@@ -19,4 +19,5 @@ def solve_a(in_str: str) -> int:
     edges_to_remove = networkx.minimum_edge_cut(graph)
     graph.remove_edges_from(edges_to_remove)
     components = list(networkx.connected_components(graph))
+    assert len(components) == 2
     return math.prod(len(_) for _ in components)
