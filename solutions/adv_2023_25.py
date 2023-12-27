@@ -17,6 +17,7 @@ def solve_a(in_str: str) -> int:
     """returns the solution for part_a"""
     graph = _parse_input(in_str)
     edges_to_remove = networkx.minimum_edge_cut(graph)
+    assert len(edges_to_remove) == 3
     graph.remove_edges_from(edges_to_remove)
     components = list(networkx.connected_components(graph))
     assert len(components) == 2
