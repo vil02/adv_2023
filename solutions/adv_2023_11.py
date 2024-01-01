@@ -73,8 +73,8 @@ def compute_sum_of_dists(in_str: str, in_empty_size: int) -> int:
     empty_rows = get_empty_rows(image, y_max)
     empty_cols = get_empty_cols(image, x_max)
     return sum(
-        compute_dist(*_, empty_rows, empty_cols, in_empty_size)
-        for _ in itertools.combinations(image, 2)
+        compute_dist(pos_a, pos_b, empty_rows, empty_cols, in_empty_size)
+        for pos_a, pos_b in itertools.combinations(image, 2)
     )
 
 

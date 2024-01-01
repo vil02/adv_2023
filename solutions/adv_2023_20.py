@@ -131,10 +131,10 @@ class Circuit:
 
 
 def _parse_single_line(in_str: str):
-    source, targets = in_str.split(" -> ")
+    source, targets_str = in_str.split(" -> ")
     module_type = source[0]
     module_name = source[1:]
-    targets = targets.split(", ")
+    targets = targets_str.split(", ")
     if module_type == "%":
         return module_name, FlipFlop(module_name, targets)
     if module_type == "&":
