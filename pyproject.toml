@@ -23,6 +23,7 @@ pylint = "*"
 flake8 = "*"
 coverage = "*"
 black = "*"
+mypy = ">=1.8"
 
 [build-system]
 requires = ["poetry-core"]

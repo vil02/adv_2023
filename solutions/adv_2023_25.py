@@ -1,7 +1,7 @@
 """solution of adv_2023_25"""
 
 import math
-import networkx
+import networkx  # type: ignore
 
 
 def _parse_input(in_str: str):

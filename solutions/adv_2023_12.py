@@ -2,16 +2,16 @@
 import functools
 
 
-def _parse_nums(in_str: str) -> tuple[int]:
+def _parse_nums(in_str: str) -> tuple[int, ...]:
     return tuple(int(_) for _ in in_str.split(","))
 
 
-def _parse_line(in_str: str) -> tuple[str, tuple[int]]:
+def _parse_line(in_str: str) -> tuple[str, tuple[int, ...]]:
     data, nums = in_str.split()
     return data, _parse_nums(nums)
 
 
-def _parse_input(in_str: str) -> list[tuple[str, tuple[int]]]:
+def _parse_input(in_str: str) -> list[tuple[str, tuple[int, ...]]]:
     return [_parse_line(_) for _ in in_str.splitlines()]
 
 
@@ -45,7 +45,7 @@ def solve_a(in_str: str) -> int:
     return sum(how_many(*_) for _ in data)
 
 
-def expand(in_str: str, in_nums: tuple[int]) -> tuple[str, tuple[int]]:
+def expand(in_str: str, in_nums: tuple[int, ...]) -> tuple[str, tuple[int, ...]]:
     """expands the input data as described in part_b"""
     n_copies = 5
     res_str = "".join((in_str + "?") * n_copies)[:-1]
