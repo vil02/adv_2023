@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "solutions"}]
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.10"
 numpy = "*"
 sympy = "*"
 matplotlib = "*"
