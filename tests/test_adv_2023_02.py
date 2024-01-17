@@ -60,7 +60,7 @@ _GAME_4 = sol.Game(
         ),
     ],
 )
-def test_parse_single_game(input_str, expected):
+def test_parse_single_game(input_str: str, expected: sol.Game) -> None:
     """
     tests parse_single_game against example input
     """
@@ -71,7 +71,7 @@ def test_parse_single_game(input_str, expected):
     "in_game",
     [_GAME_1, _GAME_2],
 )
-def test_is_possible_positive(in_game):
+def test_is_possible_positive(in_game: sol.Game) -> None:
     """
     poitive tests of is_possible
     """
@@ -82,7 +82,7 @@ def test_is_possible_positive(in_game):
     "in_game",
     [_GAME_3, _GAME_4],
 )
-def test_is_possible_negative(in_game):
+def test_is_possible_negative(in_game: sol.Game) -> None:
     """
     negative tests of is_possible
     """
@@ -98,7 +98,7 @@ def test_is_possible_negative(in_game):
         (_GAME_4, {"red": 14, "green": 3, "blue": 15}),
     ],
 )
-def test_compute_smallest_hist(in_game, expected):
+def test_compute_smallest_hist(in_game: sol.Game, expected: dict[str, int]) -> None:
     """
     tests compute_smallest_hist
     """
