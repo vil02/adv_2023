@@ -22,7 +22,7 @@ pytest-xdist = "*"
 pylint = "*"
 flake8 = "*"
 coverage = "*"
-black = "*"
+black = ">=24.1"
 mypy = ">=1.8"
 
 [build-system]

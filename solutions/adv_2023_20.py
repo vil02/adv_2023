@@ -1,4 +1,5 @@
 """solution of adv_2023_20"""
+
 import collections
 import math
 
