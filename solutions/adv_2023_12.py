@@ -1,4 +1,5 @@
 """solution of adv_2023_12"""
+
 import functools
 
 

@@ -1,4 +1,5 @@
 """tests of adv_2023_07"""
+
 import pytest
 
 import test_utils as tu

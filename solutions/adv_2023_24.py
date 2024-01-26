@@ -1,6 +1,5 @@
 """solution of adv_2023_24"""
 
-
 import collections
 import itertools
 import sympy
