@@ -57,6 +57,14 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
 
+      - name: Upload coverage report to Codecov (tokenless)
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name != github.repository
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+
       - name: Upload coverage report to Codacy
         if: "! github.event.pull_request.head.repo.fork "
         uses: codacy/codacy-coverage-reporter-action@v1
