@@ -1,8 +1,7 @@
 ---
 name: check_shell_scripts
 
-# yamllint disable-line rule:truthy
-on:
+'on':
   workflow_dispatch:
   push:
     branches:
