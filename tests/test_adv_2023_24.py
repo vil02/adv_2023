@@ -58,7 +58,7 @@ _INPUTS = tu.get_inputs(24, {"small", "p"})
 
 
 def test_count_crossing():
-    """tests count_crossing agains example data"""
+    """tests count_crossing against example data"""
     assert (
         sol.count_crossing(
             sol.parse_input(_INPUTS.inputs["small"]), _SMALL_MIN, _SMALL_MAX
