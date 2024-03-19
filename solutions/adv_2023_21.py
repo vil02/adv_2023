@@ -50,7 +50,7 @@ def _make_steps(getter, in_positions, in_number_of_steps):
 
 
 def count_accessible(getter, in_start_pos, in_number_of_steps):
-    """returns the number of filelds which can be reached in given number of steps"""
+    """returns the number of fields which can be reached in given number of steps"""
     assert getter(in_start_pos) == _START
     reached = _make_steps(getter, {in_start_pos}, in_number_of_steps)
     return len(reached)
@@ -109,7 +109,7 @@ def _is_enough_data(in_values):
 def count_accessible_with_extrapolation(
     getter, in_period, in_start_pos, in_number_of_steps
 ):
-    """returns the number of filelds which can be reached in given number of steps"""
+    """returns the number of fields which can be reached in given number of steps"""
     assert getter(in_start_pos) == _START
     rem, quot = _compute_quot_and_rem(in_number_of_steps, in_period)
     reached = _make_steps(getter, {in_start_pos}, rem)

@@ -124,7 +124,7 @@ def _get_image_with_flipped(in_image, in_pos):
 
 
 def find_smuge(in_image, x_size, y_size):
-    """returns the new symmetric collumns and rows"""
+    """returns the new symmetric columns and rows"""
     org_cols, org_rows = _compute_sym_data(in_image, x_size, y_size)
     for _ in in_image:
         tmp_cols, tmp_rows = _compute_sym_data(

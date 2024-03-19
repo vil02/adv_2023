@@ -74,7 +74,7 @@ def test_parse_single_game(input_str: str, expected: sol.Game) -> None:
 )
 def test_is_possible_positive(in_game: sol.Game) -> None:
     """
-    poitive tests of is_possible
+    positive tests of is_possible
     """
     assert sol.is_possible(in_game)
 

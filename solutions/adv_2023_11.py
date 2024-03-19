@@ -31,12 +31,12 @@ def _get_empty(
 
 
 def get_empty_rows(in_image: set[tuple[int, int]], y_max: int) -> set[int]:
-    """returns indeces of empty rows"""
+    """returns indices of empty rows"""
     return _get_empty(in_image, y_max, lambda pos: pos[1])
 
 
 def get_empty_cols(in_image: set[tuple[int, int]], x_max: int) -> set[int]:
-    """returns indeces of empty columns"""
+    """returns indices of empty columns"""
     return _get_empty(in_image, x_max, lambda pos: pos[0])
 
 

@@ -29,12 +29,12 @@ _INPUTS = tu.get_inputs(6, {"small", "p"})
 
 
 def test_parse_input_a():
-    """tests parse_input_b agains example data"""
+    """tests parse_input_b against example data"""
     assert sol.parse_input_a(_INPUTS.inputs["small"]) == [_RACE_1, _RACE_2, _RACE_3]
 
 
 def test_parse_input_b():
-    """tests parse_input_b agains example data"""
+    """tests parse_input_b against example data"""
     assert sol.parse_input_b(_INPUTS.inputs["small"]) == _RACE_B
 
 
