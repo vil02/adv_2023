@@ -1,19 +1,20 @@
 """solution of adv_2023_07"""
 
+import typing
 import functools
 import itertools
 import collections
 
 
-def _parse_input(in_str):
-    def _proc_single_line(in_line):
+def _parse_input(in_str: str) -> dict[str, int]:
+    def _proc_single_line(in_line: str) -> tuple[str, int]:
         hand, bid = in_line.split()
         return hand, int(bid)
 
     return dict(_proc_single_line(_) for _ in in_str.splitlines())
 
 
-def _compute_characteristic(in_hand):
+def _compute_characteristic(in_hand: str) -> tuple[int, ...]:
     return tuple(sorted(collections.Counter(in_hand).values()))
 
 
@@ -28,7 +29,7 @@ _CHARACTERISTIC_TO_KIND = {
 }
 
 
-def get_hand_type(in_hand):
+def get_hand_type(in_hand: str) -> str:
     """returns the hand type"""
     return _CHARACTERISTIC_TO_KIND[_compute_characteristic(in_hand)]
 
@@ -44,7 +45,7 @@ _HAND_TO_STRENGTH = {
 }
 
 
-def _get_hand_strength(in_hand):
+def _get_hand_strength(in_hand: str) -> int:
     return _HAND_TO_STRENGTH[get_hand_type(in_hand)]
 
 
@@ -56,7 +57,7 @@ _CARD_STRENGTH_A = {
 }
 
 
-def _cmp(in_a, in_b):
+def _cmp(in_a: int, in_b: int) -> int:
     if in_a > in_b:
         return 1
     if in_a < in_b:
@@ -65,8 +66,11 @@ def _cmp(in_a, in_b):
     return 0
 
 
-def _get_compare_hands(in_get_hand_strength, in_get_card_strength):
-    def _compare_hands(hand_a, hand_b):
+def _get_compare_hands(
+    in_get_hand_strength: typing.Callable[[str], int],
+    in_get_card_strength: dict[str, int],
+) -> typing.Callable[[str, str], int]:
+    def _compare_hands(hand_a: str, hand_b: str) -> int:
         if _ := _cmp(in_get_hand_strength(hand_a), in_get_hand_strength(hand_b)):
             return _
         for _a, _b in zip(hand_a, hand_b):
@@ -78,7 +82,9 @@ def _get_compare_hands(in_get_hand_strength, in_get_card_strength):
     return _compare_hands
 
 
-def _compute_total_score(in_data, in_cmp):
+def _compute_total_score(
+    in_data: dict[str, int], in_cmp: typing.Callable[[str, str], int]
+) -> int:
     hands = sorted(in_data.keys(), key=functools.cmp_to_key(in_cmp))
     return sum(_r * in_data[_h] for _r, _h in enumerate(hands, 1))
 
@@ -86,19 +92,21 @@ def _compute_total_score(in_data, in_cmp):
 cmp_a = _get_compare_hands(_get_hand_strength, _CARD_STRENGTH_A)
 
 
-def solve_a(in_str):
+def solve_a(in_str: str) -> int:
     """returns the solution for part_a"""
     return _compute_total_score(_parse_input(in_str), cmp_a)
 
 
-def _substitute(in_hand, in_sub_positions, in_substitution):
+def _substitute(
+    in_hand: str, in_sub_positions: list[int], in_substitution: tuple[str, ...]
+) -> str:
     res = list(in_hand)
     for _i, _p in enumerate(in_sub_positions):
         res[_p] = in_substitution[_i]
     return "".join(res)
 
 
-def _gen_hands(in_hand):
+def _gen_hands(in_hand: str) -> typing.Generator[str, None, None]:
     normal_hands = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"]
     pos_of_js = [_p for _p, _c in enumerate(in_hand) if _c == "J"]
     for cur_subs in itertools.product(normal_hands, repeat=len(pos_of_js)):
@@ -106,7 +114,7 @@ def _gen_hands(in_hand):
 
 
 @functools.lru_cache(maxsize=None)
-def get_best_hand_type(in_hand):
+def get_best_hand_type(in_hand: str) -> str:
     """
     returns the best hand type which can be obtained by replacing J by any other card
     """
@@ -122,7 +130,7 @@ def get_best_hand_type(in_hand):
     return get_hand_type(best_hand)
 
 
-def _get_best_hand_strenght(in_hand):
+def _get_best_hand_strenght(in_hand: str) -> int:
     return _HAND_TO_STRENGTH[get_best_hand_type(in_hand)]
 
 
@@ -137,6 +145,6 @@ _CARD_STRENGTH_B = {
 cmp_b = _get_compare_hands(_get_best_hand_strenght, _CARD_STRENGTH_B)
 
 
-def solve_b(in_str):
+def solve_b(in_str: str) -> int:
     """returns the solution for part_b"""
     return _compute_total_score(_parse_input(in_str), cmp_b)

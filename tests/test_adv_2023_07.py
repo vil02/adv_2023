@@ -23,7 +23,7 @@ import solutions.adv_2023_07 as sol
         ("QQQJA", "three of kind"),
     ],
 )
-def test_get_hand_type(in_hand, expected):
+def test_get_hand_type(in_hand: str, expected: str) -> None:
     """tests get_hand_type"""
     assert sol.get_hand_type(in_hand) == expected
 
@@ -37,7 +37,7 @@ def test_get_hand_type(in_hand, expected):
         ("QQQJA", "four of kind"),
     ],
 )
-def test_get_best_hand_type(in_hand, expected):
+def test_get_best_hand_type(in_hand: str, expected: str) -> None:
     """tests get_best_hand_type"""
     assert sol.get_best_hand_type(in_hand) == expected
 
@@ -56,7 +56,7 @@ def test_get_best_hand_type(in_hand, expected):
         ("T55J5", "QQQJA"),
     ],
 )
-def test_cmp_a(weaker, stronger):
+def test_cmp_a(weaker: str, stronger: str) -> None:
     """tests cmp_a"""
     assert sol.cmp_a(weaker, stronger) == -1
     assert sol.cmp_a(stronger, weaker) == 1
@@ -78,7 +78,7 @@ def test_cmp_a(weaker, stronger):
         ("32T3K", "KK677"),
     ],
 )
-def test_cmp_b(weaker, stronger):
+def test_cmp_b(weaker: str, stronger: str) -> None:
     """tests cmp_b"""
     assert sol.cmp_b(weaker, stronger) == -1
     assert sol.cmp_b(stronger, weaker) == 1
