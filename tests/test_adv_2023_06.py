@@ -20,7 +20,7 @@ _RACE_B = sol.Race(71530, 940200)
         (_RACE_B, 71503),
     ],
 )
-def test_count_ways_to_win(in_race, expected):
+def test_count_ways_to_win(in_race: sol.Race, expected: int) -> None:
     """tests count_ways_to_win"""
     assert sol.count_ways_to_win(in_race) == expected
 
@@ -28,12 +28,12 @@ def test_count_ways_to_win(in_race, expected):
 _INPUTS = tu.get_inputs(6, {"small", "p"})
 
 
-def test_parse_input_a():
+def test_parse_input_a() -> None:
     """tests parse_input_b against example data"""
     assert sol.parse_input_a(_INPUTS.inputs["small"]) == [_RACE_1, _RACE_2, _RACE_3]
 
 
-def test_parse_input_b():
+def test_parse_input_b() -> None:
     """tests parse_input_b against example data"""
     assert sol.parse_input_b(_INPUTS.inputs["small"]) == _RACE_B
 
