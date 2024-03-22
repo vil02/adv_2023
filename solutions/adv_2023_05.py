@@ -5,7 +5,7 @@ import collections
 Interval = collections.namedtuple("Interval", ["begin", "end"])
 
 
-def is_not_empty(in_interval):
+def is_not_empty(in_interval: Interval) -> bool:
     """checks if the in_interval is not empty"""
     return in_interval.begin < in_interval.end
 
@@ -13,27 +13,27 @@ def is_not_empty(in_interval):
 class IntervalShift:
     """represents a mapping described by single interval"""
 
-    def __init__(self, in_dest_start, in_source_start, in_len):
+    def __init__(self, in_dest_start: int, in_source_start: int, in_len: int):
         self._dest_start = in_dest_start
         self._source_start = in_source_start
         assert in_len > 0
         self._length = in_len
 
-    def covers(self, in_val):
+    def covers(self, in_val: int) -> bool:
         """checks if in_val is in this interval"""
         return self._source_start <= in_val <= self.last_source()
 
-    def __call__(self, in_val):
+    def __call__(self, in_val: int) -> int:
         """maps a single seed"""
         assert self.covers(in_val)
         diff = in_val - self._source_start
         return self._dest_start + diff
 
-    def last_source(self):
+    def last_source(self) -> int:
         """returns the last value, which is mapped by this mapping"""
         return self._source_start + self._length
 
-    def split(self, in_interval):
+    def split(self, in_interval: Interval) -> tuple[Interval, Interval, Interval]:
         """splits in_interval into tree part relative to this _MapRange"""
         before = Interval(in_interval.begin, min(in_interval.end, self._source_start))
         mid = Interval(
@@ -45,18 +45,20 @@ class IntervalShift:
 
 
 class _Map:
-    def __init__(self, in_domain, in_target, in_ranges):
+    def __init__(self, in_domain: str, in_target: str, in_ranges: list[IntervalShift]):
         self.domain = in_domain
         self.target = in_target
         self._shifts = in_ranges
 
-    def __call__(self, in_val):
+    def __call__(self, in_val: int) -> int:
         for _ in self._shifts:
             if _.covers(in_val):
                 return _(in_val)
         return in_val
 
-    def _map_single_interval(self, in_shift, in_interval):
+    def _map_single_interval(
+        self, in_shift: IntervalShift, in_interval: Interval
+    ) -> tuple[list[Interval], list[Interval]]:
         before, mid, after = in_shift.split(in_interval)
         final_res = []
         if is_not_empty(mid):
@@ -65,7 +67,7 @@ class _Map:
         tmp_res = [_ for _ in [before, after] if is_not_empty(_)]
         return final_res, tmp_res
 
-    def map_intervals(self, in_intervals):
+    def map_intervals(self, in_intervals: list[Interval]) -> list[Interval]:
         """mapps the in_intervals using all of the stored IntervalShifts"""
         res = []
         tmp_intervas = in_intervals
@@ -79,19 +81,19 @@ class _Map:
         return res + tmp_intervas
 
 
-def _parse_seeds(in_str):
+def _parse_seeds(in_str: str) -> list[int]:
     _, nums = in_str.split(": ")
     assert _ == "seeds"
     return [int(_) for _ in nums.split(" ")]
 
 
-def _parse_domain_target(in_str):
+def _parse_domain_target(in_str: str) -> tuple[str, str]:
     domain, _, target = in_str.split("-")
     assert _ == "to"
     return domain, target
 
 
-def _parse_map(in_str):
+def _parse_map(in_str: str) -> _Map:
     lines = in_str.splitlines()
     name, _ = lines[0].split()
     assert _ == "map:"
@@ -105,7 +107,7 @@ def _parse_map(in_str):
     return _Map(*_parse_domain_target(name), ranges)
 
 
-def _parse_input(in_str):
+def _parse_input(in_str: str) -> tuple[list[int], list[_Map]]:
     pieces = in_str.split("\n\n")
     seeds = _parse_seeds(pieces[0])
     maps = [_parse_map(_) for _ in pieces[1:]]
@@ -116,31 +118,31 @@ def _parse_input(in_str):
     return seeds, maps
 
 
-def _compute_final_location(in_seed, in_maps):
+def _compute_final_location(in_seed: int, in_maps: list[_Map]) -> int:
     cur = in_seed
     for _ in in_maps:
         cur = _(cur)
     return cur
 
 
-def solve_a(in_str):
+def solve_a(in_str: str) -> int:
     """returns the solution for part_a"""
     seeds, maps = _parse_input(in_str)
     return min(_compute_final_location(_, maps) for _ in seeds)
 
 
-def _seeds_to_intervals(in_seeds):
+def _seeds_to_intervals(in_seeds: list[int]) -> list[Interval]:
     return [Interval(_s, _s + _l) for _s, _l in zip(in_seeds[0::2], in_seeds[1::2])]
 
 
-def _apply_all(maps, in_interval):
+def _apply_all(maps: list[_Map], in_interval: Interval) -> list[Interval]:
     res = [in_interval]
     for _ in maps:
         res = _.map_intervals(res)
     return res
 
 
-def solve_b(in_str):
+def solve_b(in_str: str) -> int:
     """returns the solution for part_b"""
     seeds, maps = _parse_input(in_str)
     res_intervals = []
