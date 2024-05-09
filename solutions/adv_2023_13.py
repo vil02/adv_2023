@@ -37,12 +37,12 @@ def _gen_row_positons(in_row, x_size):
     return (_to_pos(_, in_row) for _ in _pos_range(x_size))
 
 
-def _get_col(in_image, in_col, y_size):
-    return [in_image[_] for _ in _gen_col_positons(in_col, y_size)]
+def _get_col(in_image_dict, in_col, y_size):
+    return [in_image_dict[_] for _ in _gen_col_positons(in_col, y_size)]
 
 
-def _get_row(in_image, in_row, x_size):
-    return [in_image[_] for _ in _gen_row_positons(in_row, x_size)]
+def _get_row(in_image_dict, in_row, x_size):
+    return [in_image_dict[_] for _ in _gen_row_positons(in_row, x_size)]
 
 
 def _compute_score_sum(in_cols, in_rows):
@@ -59,8 +59,8 @@ def _gen_pairs(in_start_val, in_limit):
 
 
 class _Image:
-    def __init__(self, in_image, in_x_size, in_y_size):
-        self._image = in_image
+    def __init__(self, in_image_dict, in_x_size, in_y_size):
+        self._image_dict = in_image_dict
         self._x_size = in_x_size
         self._y_size = in_y_size
         self._cols = {}
@@ -68,12 +68,12 @@ class _Image:
 
     def _get_col(self, in_col):
         if in_col not in self._cols:
-            self._cols[in_col] = _get_col(self._image, in_col, self._y_size)
+            self._cols[in_col] = _get_col(self._image_dict, in_col, self._y_size)
         return self._cols[in_col]
 
     def _get_row(self, in_row):
         if in_row not in self._rows:
-            self._rows[in_row] = _get_row(self._image, in_row, self._x_size)
+            self._rows[in_row] = _get_row(self._image_dict, in_row, self._x_size)
         return self._rows[in_row]
 
     def _is_symmetric_col(self, in_col):
@@ -97,14 +97,14 @@ class _Image:
         return {_ for _ in range(1, self._y_size) if self._is_symmetric_row(_)}
 
 
-def _compute_sym_data(in_image, x_size, y_size):
-    cur_image = _Image(in_image, x_size, y_size)
+def _compute_sym_data(in_image_dict, x_size, y_size):
+    cur_image = _Image(in_image_dict, x_size, y_size)
     return cur_image.find_sym_cols(), cur_image.find_sym_rows()
 
 
-def compute_sym_score(in_image, x_size, y_size):
+def compute_sym_score(in_image_dict, x_size, y_size):
     """computes symmetry score for given image"""
-    sym_col, sym_row = _compute_sym_data(in_image, x_size, y_size)
+    sym_col, sym_row = _compute_sym_data(in_image_dict, x_size, y_size)
     return _compute_score_sum(sym_col, sym_row)
 
 
@@ -117,26 +117,26 @@ def _flip(in_char):
     return {".": "#", "#": "."}[in_char]
 
 
-def _get_image_with_flipped(in_image, in_pos):
-    res = copy.copy(in_image)
+def _get_image_with_flipped(in_image_dict, in_pos):
+    res = copy.copy(in_image_dict)
     res[in_pos] = _flip(res[in_pos])
     return res
 
 
-def find_smuge(in_image, x_size, y_size):
+def find_smuge(in_image_dict, x_size, y_size):
     """returns the new symmetric columns and rows"""
-    org_cols, org_rows = _compute_sym_data(in_image, x_size, y_size)
-    for _ in in_image:
+    org_cols, org_rows = _compute_sym_data(in_image_dict, x_size, y_size)
+    for _ in in_image_dict:
         tmp_cols, tmp_rows = _compute_sym_data(
-            _get_image_with_flipped(in_image, _), x_size, y_size
+            _get_image_with_flipped(in_image_dict, _), x_size, y_size
         )
         if (tmp_cols or tmp_rows) and (tmp_cols != org_cols or tmp_rows != org_rows):
             return tmp_cols.difference(org_cols), tmp_rows.difference(org_rows)
     return None
 
 
-def _compute_sym_score_b(in_image, x_size, y_size):
-    cols, rows = find_smuge(in_image, x_size, y_size)
+def _compute_sym_score_b(in_image_dict, x_size, y_size):
+    cols, rows = find_smuge(in_image_dict, x_size, y_size)
     return _compute_score_sum(cols, rows)
 
 
