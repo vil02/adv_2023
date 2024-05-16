@@ -15,12 +15,15 @@ def parse_input(in_str: str):
     y_size = len(lines)
     x_size = len(lines[0])
     res = {}
+    s_pos = None
     for y_pos, row in enumerate(lines):
         assert x_size == len(row)
         for x_pos, char in enumerate(row):
             res[_to_pos(x_pos, y_pos)] = char
             if char == _START:
+                assert s_pos is None
                 s_pos = _to_pos(x_pos, y_pos)
+    assert s_pos is not None
     return res, x_size, y_size, s_pos
 
 
