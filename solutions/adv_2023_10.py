@@ -10,11 +10,14 @@ def _to_pos(in_x, in_y):
 def parse_input(in_str):
     """parses the input into a dict and find the position of S"""
     res = {}
+    s_pos = None
     for y_pos, row in enumerate(in_str.splitlines()[::-1]):
         for x_pos, char in enumerate(row):
             res[_to_pos(x_pos, y_pos)] = char
             if char == "S":
+                assert s_pos is None
                 s_pos = _to_pos(x_pos, y_pos)
+    assert s_pos is not None
     return res, s_pos
 
 
