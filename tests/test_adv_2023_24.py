@@ -9,7 +9,7 @@ _SMALL_MAX = 27
 
 
 @pytest.mark.parametrize(
-    "heil_a, heil_b, expected",
+    ("heil_a", "heil_b", "expected"),
     [
         (
             sol.Heil([19, 13, 30], [-2, 1, -2]),

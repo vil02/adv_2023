@@ -12,7 +12,7 @@ _RACE_B = sol.Race(71530, 940200)
 
 
 @pytest.mark.parametrize(
-    "in_race, expected",
+    ("in_race", "expected"),
     [
         (_RACE_1, 4),
         (_RACE_2, 8),

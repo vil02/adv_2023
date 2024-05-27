@@ -150,7 +150,7 @@ _SMALL_GETTER = sol.get_getter(_SMALL_PLAN, _SMALL_X, _SMALL_Y)
 
 
 @pytest.mark.parametrize(
-    "in_steps, expected",
+    ("in_steps", "expected"),
     [
         (6, 16),
         (10, 50),
@@ -164,7 +164,7 @@ def test_count_accessible(in_steps, expected):
 
 
 @pytest.mark.parametrize(
-    "in_steps, expected",
+    ("in_steps", "expected"),
     [
         (50, 1594),
         (100, 6536),

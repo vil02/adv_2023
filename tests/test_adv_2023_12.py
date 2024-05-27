@@ -7,7 +7,7 @@ import solutions.adv_2023_12 as sol
 
 
 @pytest.mark.parametrize(
-    "in_str, in_nums, expected",
+    ("in_str", "in_nums", "expected"),
     [
         ("???.###", (1, 1, 3), 1),
         (".??..??...?##.", (1, 1, 3), 4),
@@ -23,7 +23,7 @@ def test_how_many(in_str, in_nums, expected):
 
 
 @pytest.mark.parametrize(
-    "in_str, in_nums, expected",
+    ("in_str", "in_nums", "expected"),
     [
         ("???.###", (1, 1, 3), 1),
         (".??..??...?##.", (1, 1, 3), 16384),
@@ -39,7 +39,7 @@ def test_how_many_b(in_str, in_nums, expected):
 
 
 @pytest.mark.parametrize(
-    "in_str, in_nums, expected",
+    ("in_str", "in_nums", "expected"),
     [
         (".#", (1,), (".#?.#?.#?.#?.#", (1, 1, 1, 1, 1))),
         (
