@@ -151,7 +151,7 @@ def test_parse_input():
 
 
 @pytest.mark.parametrize(
-    "in_img, in_size_x, in_size_y, expected",
+    ("in_img", "in_size_x", "in_size_y", "expected"),
     [
         (_IMG_A, *_SMALL_SIZE, 5),
         (_IMG_B, *_SMALL_SIZE, 400),
@@ -166,7 +166,7 @@ def test_parse_input():
     ],
 )
 def test_compute_sym_score(in_img, in_size_x, in_size_y, expected):
-    """tests compute_sym_socre"""
+    """tests compute_sym_score"""
     assert sol.compute_sym_score(in_img, in_size_x, in_size_y) == expected
 
 
