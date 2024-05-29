@@ -7,7 +7,7 @@ import solutions.adv_2023_07 as sol
 
 
 @pytest.mark.parametrize(
-    "in_hand, expected",
+    ("in_hand", "expected"),
     [
         ("AAAAA", "five of kind"),
         ("AA8AA", "four of kind"),
@@ -29,7 +29,7 @@ def test_get_hand_type(in_hand: str, expected: str) -> None:
 
 
 @pytest.mark.parametrize(
-    "in_hand, expected",
+    ("in_hand", "expected"),
     [
         ("QJJQ2", "four of kind"),
         ("T55J5", "four of kind"),
@@ -44,7 +44,7 @@ def test_get_best_hand_type(in_hand: str, expected: str) -> None:
 
 # ordering in a: 32T3K, KTJJT, KK677, T55J5, QQQJA
 @pytest.mark.parametrize(
-    "weaker, stronger",
+    ("weaker", "stronger"),
     [
         ("32T3K", "KK677"),
         ("32T3K", "KTJJT"),
@@ -66,7 +66,7 @@ def test_cmp_a(weaker: str, stronger: str) -> None:
 
 # ordering in b: 32T3K, KK677, T55J5, QQQJA, KTJJT
 @pytest.mark.parametrize(
-    "weaker, stronger",
+    ("weaker", "stronger"),
     [
         ("32T3K", "KTJJT"),
         ("QQQJA", "KTJJT"),

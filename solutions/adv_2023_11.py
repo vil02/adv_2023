@@ -41,7 +41,8 @@ def get_empty_cols(in_image: set[tuple[int, int]], x_max: int) -> set[int]:
 
 
 def _gen_nums(in_a: int, in_b: int) -> Iterator[int]:
-    assert in_a >= 0 and in_b >= 0
+    assert in_a >= 0
+    assert in_b >= 0
     yield from range(*sorted([in_a, in_b]))
 
 

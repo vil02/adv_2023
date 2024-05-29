@@ -44,7 +44,7 @@ _GAME_4 = sol.Game(
 
 
 @pytest.mark.parametrize(
-    "input_str,expected",
+    ("input_str", "expected"),
     [
         (
             "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
@@ -91,7 +91,7 @@ def test_is_possible_negative(in_game: sol.Game) -> None:
 
 
 @pytest.mark.parametrize(
-    "in_game, expected",
+    ("in_game", "expected"),
     [
         (_GAME_1, {"red": 4, "green": 2, "blue": 6}),
         (_GAME_2, {"red": 1, "green": 3, "blue": 4}),

@@ -120,7 +120,7 @@ def test_parse_input():
 
 
 @pytest.mark.parametrize(
-    "x_pos, y_pos, expected",
+    ("x_pos", "y_pos", "expected"),
     [
         (1, 10, 10),
         (1, 9, 9),

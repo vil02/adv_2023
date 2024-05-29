@@ -7,7 +7,7 @@ import solutions.adv_2023_15 as sol
 
 
 @pytest.mark.parametrize(
-    "in_str, expected",
+    ("in_str", "expected"),
     [
         ("rn=1", 30),
         ("cm-", 253),

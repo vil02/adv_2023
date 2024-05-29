@@ -28,7 +28,7 @@ _INTERVAL_SHIFT = sol.IntervalShift(5, 10, 4)
 
 
 @pytest.mark.parametrize(
-    "in_seed, expected",
+    ("in_seed", "expected"),
     [(10, 5), (11, 6), (12, 7), (13, 8), (14, 9)],
 )
 def test_interval_shif(in_seed, expected):
@@ -42,12 +42,12 @@ def test_interval_shif(in_seed, expected):
 )
 def test_interval_shif_raises_error(in_seed):
     """checks if IntervalShift if the input is outside the interval"""
-    with pytest.raises(Exception):
+    with pytest.raises(AssertionError):
         _INTERVAL_SHIFT(in_seed)
 
 
 @pytest.mark.parametrize(
-    "in_interval, expected",
+    ("in_interval", "expected"),
     [
         (
             sol.Interval(10, 14),

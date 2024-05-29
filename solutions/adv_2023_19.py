@@ -48,7 +48,8 @@ def _parse_piece_value(in_str: str):
 
 
 def _parse_piece(in_str: str):
-    assert in_str[0] == "{" and in_str[-1] == "}"
+    assert in_str[0] == "{"
+    assert in_str[-1] == "}"
     return dict(_parse_piece_value(piece) for piece in in_str[1:-1].split(","))
 
 

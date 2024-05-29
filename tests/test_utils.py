@@ -87,7 +87,7 @@ class _Inputs:
         """
 
         @pytest.mark.parametrize(
-            "input_str,expected", self._get_pytest_params(in_key_to_expected)
+            ("input_str", "expected"), self._get_pytest_params(in_key_to_expected)
         )
         def _test_regular(input_str: str, expected: SolveOutput) -> None:
             assert in_fun(input_str) == expected
