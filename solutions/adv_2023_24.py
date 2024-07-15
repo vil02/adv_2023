@@ -2,7 +2,7 @@
 
 import collections
 import itertools
-import sympy
+import sympy  # type: ignore
 
 Heil = collections.namedtuple("Heil", ["pos", "vel"])
 
