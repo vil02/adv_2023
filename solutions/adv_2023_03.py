@@ -23,7 +23,7 @@ def _get_symbol_positions(
 
 def _get_positions_around(
     in_data: Data, in_pos: Position
-) -> typing.Generator[int, None, None]:
+) -> typing.Generator[tuple[int, int], None, None]:
     _x, _y = in_pos
     for _ in [
         (_x, _y + 1),
