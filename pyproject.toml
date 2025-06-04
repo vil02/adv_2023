@@ -8,25 +8,25 @@ packages = [{include = "solutions"}]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0.0"
-numpy = "*"
-sympy = "*"
-matplotlib = "*"
-networkx = ">=3.1.0"
+numpy = "2.2.0"
+sympy = "1.14.0"
+matplotlib = "3.10.3"
+networkx = "3.5"
 
 [tool.poetry.group.dev]
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-pytest = "*"
-pytest-xdist = "*"
-pylint = "*"
-flake8 = "*"
+pytest = "8.4.0"
+pytest-xdist = "3.7.0"
+pylint = "3.3.7"
+flake8 = "7.2.0"
 flake8-bugbear = "24.12.12"
 flake8-pytest-style = "2.1.0"
 ruff = "0.11.12"
-coverage = "*"
-black = ">=24.1"
-mypy = ">=1.8"
+coverage = "7.8.2"
+black = "25.1.0"
+mypy = "1.16.0"
 
 [build-system]
 requires = ["poetry-core"]
