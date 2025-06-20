@@ -8,6 +8,9 @@ name: python_test
       - main
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   python_test:
     runs-on: ${{matrix.os}}
