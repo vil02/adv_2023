@@ -8,6 +8,9 @@ name: check_shell_scripts
       - main
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   run_shellcheck:
     runs-on: ubuntu-latest

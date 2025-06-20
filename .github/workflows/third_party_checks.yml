@@ -8,6 +8,9 @@ name: third_party_checks
       - main
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   generate_and_upload_coverage_data:
     name: generate_and_upload_coverage_data
