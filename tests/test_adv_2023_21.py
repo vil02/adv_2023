@@ -146,7 +146,7 @@ def test_parse_input():
     )
 
 
-_SMALL_GETTER = sol.get_getter(_SMALL_PLAN, _SMALL_X, _SMALL_Y)
+_small_getter = sol.get_getter(_SMALL_PLAN, _SMALL_X, _SMALL_Y)
 
 
 @pytest.mark.parametrize(
@@ -160,7 +160,7 @@ _SMALL_GETTER = sol.get_getter(_SMALL_PLAN, _SMALL_X, _SMALL_Y)
 )
 def test_count_accessible(in_steps, expected):
     """tests count_accessible with example data"""
-    assert sol.count_accessible(_SMALL_GETTER, _SMALL_START_POS, in_steps) == expected
+    assert sol.count_accessible(_small_getter, _SMALL_START_POS, in_steps) == expected
 
 
 @pytest.mark.parametrize(
@@ -177,7 +177,7 @@ def test_count_accessible_with_extrapolation(in_steps, expected):
     """tests count_accessible_with_extrapolation with example data"""
     assert (
         sol.count_accessible_with_extrapolation(
-            _SMALL_GETTER, _SMALL_X, _SMALL_START_POS, in_steps
+            _small_getter, _SMALL_X, _SMALL_START_POS, in_steps
         )
         == expected
     )
