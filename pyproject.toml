@@ -17,7 +17,7 @@ networkx = "3.5"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-pytest = "9.0.0"
+pytest = "9.0.1"
 pytest-xdist = "3.8.0"
 pylint = "4.0.2"
 flake8 = "7.3.0"
