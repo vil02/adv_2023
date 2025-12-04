@@ -24,6 +24,17 @@ jobs:
 
     steps:
       - name: Checkout
+        if: "! github.event.pull_request.head.repo.fork "
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+          submodules: 'recursive'
+          token: ${{ secrets.ADV_INPUTS }}
+
+      - name: Checkout (no submodule with inputs)
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name != github.repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           persist-credentials: false
