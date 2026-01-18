@@ -5,7 +5,6 @@ import pytest
 import test_utils as tu
 import solutions.adv_2023_11 as sol
 
-
 _INPUTS = tu.get_inputs(11, {"small", "p"})
 
 _SMALL_IMAGE = {(7, 1), (1, 5), (4, 9), (9, 6), (0, 9), (6, 4), (3, 0), (0, 2), (7, 8)}
