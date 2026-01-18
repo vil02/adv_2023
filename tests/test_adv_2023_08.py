@@ -3,7 +3,6 @@
 import test_utils as tu
 import solutions.adv_2023_08 as sol
 
-
 _INPUTS = tu.get_inputs(8, {"small", "small_a", "small_b", "p"})
 
 test_solve_a = _INPUTS.get_test(sol.solve_a, {"small": 2, "small_a": 6, "p": 16271})

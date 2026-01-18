@@ -5,7 +5,6 @@ import pytest
 import test_utils as tu
 import solutions.adv_2023_13 as sol
 
-
 _INPUTS = tu.get_inputs(13, {"small", "p", "r"})
 
 _IMG_A = {

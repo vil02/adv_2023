@@ -5,7 +5,6 @@ import pytest
 import test_utils as tu
 import solutions.adv_2023_14 as sol
 
-
 _INPUTS = tu.get_inputs(14, {"small", "p"})
 
 _SMALL = {
