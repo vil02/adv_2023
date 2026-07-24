@@ -161,9 +161,7 @@ def _count(space_to_id, id_to_space):
     supports = _get_supports(space_to_id, id_to_space)
     supported_by = _get_supported_by(space_to_id, id_to_space)
     return sum(
-        1
-        for cur_id in id_to_space.keys()
-        if _can_be_removed(cur_id, supports, supported_by)
+        1 for cur_id in id_to_space if _can_be_removed(cur_id, supports, supported_by)
     )
 
 

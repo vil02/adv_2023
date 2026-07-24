@@ -1,9 +1,9 @@
 """solution of adv_2023_07"""
 
-import typing
+import collections
 import functools
 import itertools
-import collections
+import typing
 
 
 def _parse_input(in_str: str) -> dict[str, int]:
@@ -113,7 +113,7 @@ def _gen_hands(in_hand: str) -> typing.Generator[str, None, None]:
         yield _substitute(in_hand, pos_of_js, cur_subs)
 
 
-@functools.lru_cache(maxsize=None)
+@functools.cache
 def get_best_hand_type(in_hand: str) -> str:
     """
     returns the best hand type which can be obtained by replacing J by any other card

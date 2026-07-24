@@ -1,7 +1,7 @@
 """solution of adv_2023_11"""
 
 import itertools
-from typing import Callable, Iterator
+from collections.abc import Callable, Iterator
 
 
 def _to_pos(in_x: int, in_y: int) -> tuple[int, int]:

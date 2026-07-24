@@ -1,6 +1,7 @@
 """tests of adv_2023_20"""
 
 import test_utils as tu
+
 import solutions.adv_2023_20 as sol
 
 _INPUTS = tu.get_inputs(20, {"small_a", "small_b", "p"})

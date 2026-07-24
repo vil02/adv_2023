@@ -1,8 +1,8 @@
 """tests of adv_2023_02"""
 
 import pytest
-
 import test_utils as tu
+
 import solutions.adv_2023_02 as sol
 
 _GAME_1 = sol.Game(

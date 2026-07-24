@@ -1,9 +1,9 @@
 """solution of adv_2023_08"""
 
-import typing
 import itertools
 import math
 import re
+import typing
 
 
 def _parse_node(in_str: str) -> tuple[str, tuple[str, str]]:
@@ -64,7 +64,7 @@ def _is_start_node(in_node: str) -> bool:
 
 
 def _get_start_nodes(in_nodes: dict[str, tuple[str, str]]) -> list[str]:
-    return [_ for _ in in_nodes.keys() if _is_start_node(_)]
+    return [_ for _ in in_nodes if _is_start_node(_)]
 
 
 def _proc_single(

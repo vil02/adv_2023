@@ -1,6 +1,7 @@
 """solution of adv_2023_25"""
 
 import math
+
 import networkx  # type: ignore
 
 
