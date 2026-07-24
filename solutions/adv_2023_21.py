@@ -1,5 +1,7 @@
 """solution of adv_2023_21"""
 
+import itertools
+
 
 def _to_pos(in_x: int, in_y: int) -> tuple[int, int]:
     return (in_x, in_y)
@@ -98,7 +100,7 @@ def _compute_quot_and_rem(total_steps, period):
 
 
 def _compute_diffs(in_vals):
-    return [b - a for a, b in zip(in_vals[:-1], in_vals[1:])]
+    return [b - a for a, b in itertools.pairwise(in_vals)]
 
 
 def _is_enough_data(in_values):

@@ -51,7 +51,7 @@ def _to_graph_a(in_plan):
     graph = _empty_graph(in_plan)
 
     for cur_pos, cur_char in in_plan.items():
-        if in_plan[cur_pos] == ".":
+        if cur_char == ".":
             for cur_dir in _ALL_DIRS:
                 tmp_pos = _shift(cur_pos, cur_dir)
                 if tmp_pos in in_plan and in_plan[tmp_pos] != "#":

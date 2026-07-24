@@ -1,8 +1,8 @@
 """tests of adv_2023_06"""
 
 import pytest
-
 import test_utils as tu
+
 import solutions.adv_2023_06 as sol
 
 _RACE_1 = sol.Race(7, 9)

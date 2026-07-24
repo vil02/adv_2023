@@ -1,8 +1,8 @@
 """tests of adv_2023_15"""
 
 import pytest
-
 import test_utils as tu
+
 import solutions.adv_2023_15 as sol
 
 

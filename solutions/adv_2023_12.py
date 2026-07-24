@@ -16,7 +16,7 @@ def _parse_input(in_str: str) -> list[tuple[str, tuple[int, ...]]]:
     return [_parse_line(_) for _ in in_str.splitlines()]
 
 
-@functools.lru_cache(maxsize=None)
+@functools.cache
 def how_many(in_str: str, in_nums: tuple[int], size=None) -> int:
     """
     computes in how many ways '?' can be replaced in in_str

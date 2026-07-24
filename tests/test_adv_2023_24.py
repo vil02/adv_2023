@@ -2,6 +2,7 @@
 
 import pytest
 import test_utils as tu
+
 import solutions.adv_2023_24 as sol
 
 _SMALL_MIN = 7

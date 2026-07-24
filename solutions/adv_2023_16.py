@@ -60,9 +60,7 @@ def _is_simple_move(in_char, in_dir):
         return True
     if in_char == "-" and _is_horizontal(in_dir):
         return True
-    if in_char == "|" and _is_vertical(in_dir):
-        return True
-    return False
+    return in_char == "|" and _is_vertical(in_dir)
 
 
 def _propagate_beam(in_plan, in_start_state):
