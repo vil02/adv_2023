@@ -26,7 +26,7 @@ flake8-pytest-style = "2.2.0"
 ruff = "0.17.3"
 coverage = "7.17.0"
 black = "26.10.1"
-mypy = "2.4.0"
+mypy = "2.4.1"
 
 [build-system]
 requires = ["poetry-core"]
